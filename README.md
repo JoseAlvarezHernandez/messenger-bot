@@ -1,2 +1,2 @@
 # messenger-bot
-My personal Facebook Messenger Bot using Bot Framework
+My personal Facebook Messenger Bot
