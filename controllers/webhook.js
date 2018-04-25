@@ -27,10 +27,15 @@ exports.get = (req, res, next) => {
     const challenge = req.query['hub.challenge']
 
     if (mode && token) {
-        if (mode === 'suscribe' && token === verify_token)
+        if (mode === 'suscribe' && token === verify_token){
             res.status(200).send(challenge);
-        else
+        }else{
+            console.log(mode);
+            console.log(token);
+            console.log(challenge);
             res.sendStatus(403);
-    } else
+        }
+    } else {
         res.sendStatus(400);
+    }
 }
