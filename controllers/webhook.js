@@ -30,9 +30,6 @@ exports.get = (req, res, next) => {
         if (mode === 'subscribe' && token === verify_token){
             res.status(200).send(challenge);
         }else{
-            console.log(mode);
-            console.log(token);
-            console.log(challenge);
             res.sendStatus(403);
         }
     } else {
