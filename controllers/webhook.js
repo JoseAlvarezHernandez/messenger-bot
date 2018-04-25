@@ -4,7 +4,8 @@
  * @desc controller  
  */
 
- const facebook = require('api/facebook');
+const facebook = require('./../api/facebook');
+
 exports.post = (req, res, next) => {
     const body = req.body;
 
@@ -13,11 +14,11 @@ exports.post = (req, res, next) => {
         body.entry.forEach(entry => {
             webhook_event = entry.messaging[0];
             const sender_psid = webhook_event.sender.id;
-            
+
             if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
+                facebook.handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
+                facebook.handlePostback(sender_psid, webhook_event.postback);
             }
         });
         res.status(200).send(webhook_event);
