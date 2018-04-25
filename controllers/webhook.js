@@ -31,5 +31,6 @@ exports.get = (req, res, next) => {
             res.status(200).send(challenge);
         else
             res.sendStatus(403);
-    }
+    } else
+        res.sendStatus(400);
 }
