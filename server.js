@@ -23,7 +23,7 @@ const router = express.Router();
 const app = express();
 
 /** Node app port */
-const port = process.env.port || 3978;
+const port = process.env.port || process.env.PORT || 3978;
 
 /************************************************
  * Express middleware
