@@ -44,7 +44,7 @@ async function callSendAPIImage(sender_psid) {
             }
         }
     }
-    const user = await getPersonsProfile();
+    const user = await getPersonsProfile(sender_psid);
     console.log(user);
 
     request({
@@ -84,17 +84,9 @@ function callSendAPI(sender_psid, message) {
 }
 
 function getPersonsProfile(sender_psid) {
-    const request_body = {
-        recipient: {
-            id: sender_psid
-        },
-        message
-    }
-
     return request({
         'uri': `https://graph.facebook.com/v2.6/${sender_psid}`,
         'qs': { 'access_token': process.env.access_token, fields: 'first_name,last_name' },
-        'method': 'GET',
-        'json': request_body
+        'method': 'GET'
     });
-}
+};
