@@ -10,7 +10,7 @@ exports.handleMessage = (sender_psid, received_message) => {
     console.log(received_message);
     // Sends the response message
     //callSendAPI(sender_psid, response);
-    getPersonsProfile(sender_psid);
+    callSendAPIImage(sender_psid);
 }
 
 exports.handlePostback = (sender_psid, received_postback) => {
@@ -29,7 +29,7 @@ exports.handlePostback = (sender_psid, received_postback) => {
     callSendAPI(sender_psid, response);
 }
 
-function callSendAPIImage(sender_psid, name) {
+async function callSendAPIImage(sender_psid) {
     const request_body = {
         recipient: {
             id: sender_psid
@@ -44,6 +44,8 @@ function callSendAPIImage(sender_psid, name) {
             }
         }
     }
+    const user = await getPersonsProfile();
+    console.log(user);
 
     request({
         'uri': 'https://graph.facebook.com/v2.6/me/messages',
@@ -52,9 +54,9 @@ function callSendAPIImage(sender_psid, name) {
         'json': request_body
     }, (err, res, body) => {
         if (!err) {
-            console.log(body)
+            console.log('image message sent!');
         } else {
-            console.error(`Unable to send message: ${err}`);
+            console.error(`Unable to send image: ${err}`);
         }
     });
 }
@@ -89,15 +91,10 @@ function getPersonsProfile(sender_psid) {
         message
     }
 
-    request({
+    return request({
         'uri': `https://graph.facebook.com/v2.6/${sender_psid}`,
         'qs': { 'access_token': process.env.access_token, fields: 'first_name,last_name' },
         'method': 'GET',
         'json': request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log(body);
-            callSendAPIImage(sender_psid, body.first_name);
-        }
     });
 }
