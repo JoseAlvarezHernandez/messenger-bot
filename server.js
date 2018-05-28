@@ -58,11 +58,11 @@ const webhookRoute = require('./routes/webhook');
 /************************************************
  * Express route binding 
  ************************************************/
-
 // Init get
 router.get('/', (req, res) => res.status(200).send({ status: 'up' }));
 
+app.use(express.static('public'));
 app.use(router);
 app.use(webhookRoute);
 
-app.listen(port, () => console.log('Server up' + process.env.token));
+app.listen(port, () => console.log('Server up'));

@@ -7,18 +7,10 @@
 const request = require('request');
 
 exports.handleMessage = (sender_psid, received_message) => {
-    let response;
-    // Check if the message contains text
-    if (received_message.text) {
-
-        // Create the payload for a basic text message
-        response = {
-            text: `You sent the message: '${received_message.text}'.`
-        }
-    }
-
+    console.log(received_message);
     // Sends the response message
-    callSendAPI(sender_psid, response);
+    //callSendAPI(sender_psid, response);
+    callSendAPIImage(sender_psid, 'Jose de Jesus');
 }
 
 exports.handlePostback = (sender_psid, received_postback) => {
@@ -37,12 +29,21 @@ exports.handlePostback = (sender_psid, received_postback) => {
     callSendAPI(sender_psid, response);
 }
 
-function callSendAPI(sender_psid, response) {
+function callSendAPIImage(sender_psid, name) {
     const request_body = {
-        'recipient': {
-            'id': sender_psid
+        recipient: {
+            id: sender_psid
         },
-        'message': response
+        message: {
+            attachment: {
+                type: 'image',
+                payload: {
+                    url: 'https://inncol-messenger-bot.herokuapp.com/images/facebook-messenger.png',
+                    is_reusable: true
+                }
+            },
+            text: `Aqui una imagen para ti ${name}`
+        }
     }
 
     request({
@@ -54,7 +55,29 @@ function callSendAPI(sender_psid, response) {
         if (!err) {
             console.log('message sent!')
         } else {
-            console.error('Unable to send message:' + err);
+            console.error(`Unable to send message: ${err}`);
+        }
+    });
+}
+
+function callSendAPI(sender_psid, message) {
+    const request_body = {
+        recipient: {
+            id: sender_psid
+        },
+        message
+    }
+
+    request({
+        'uri': 'https://graph.facebook.com/v2.6/me/messages',
+        'qs': { 'access_token': process.env.access_token },
+        'method': 'POST',
+        'json': request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error(`Unable to send message: ${err}`);
         }
     });
 }
