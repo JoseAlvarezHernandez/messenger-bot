@@ -10,6 +10,7 @@ exports.post = (req, res, next) => {
     const body = req.body;
 
     if (body.object === 'page') {
+        console.log(body);
         let webhook_event = '';
         body.entry.forEach(entry => {
             webhook_event = entry.messaging[0];

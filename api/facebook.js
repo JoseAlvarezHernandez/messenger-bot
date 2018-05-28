@@ -41,8 +41,7 @@ function callSendAPIImage(sender_psid, name) {
                     url: 'https://inncol-messenger-bot.herokuapp.com/images/facebook-messenger.png',
                     is_reusable: true
                 }
-            },
-            text: `Aqui una imagen para ti ${name}`
+            }
         }
     }
 
@@ -53,7 +52,7 @@ function callSendAPIImage(sender_psid, name) {
         'json': request_body
     }, (err, res, body) => {
         if (!err) {
-            console.log('message sent!')
+            console.log(body)
         } else {
             console.error(`Unable to send message: ${err}`);
         }
