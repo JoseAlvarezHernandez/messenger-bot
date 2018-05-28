@@ -10,7 +10,7 @@ exports.handleMessage = (sender_psid, received_message) => {
     console.log(received_message);
     // Sends the response message
     //callSendAPI(sender_psid, response);
-    callSendAPIImage(sender_psid, 'Jose de Jesus');
+    getPersonsProfile(sender_psid);
 }
 
 exports.handlePostback = (sender_psid, received_postback) => {
@@ -77,6 +77,27 @@ function callSendAPI(sender_psid, message) {
             console.log('message sent!')
         } else {
             console.error(`Unable to send message: ${err}`);
+        }
+    });
+}
+
+function getPersonsProfile(sender_psid) {
+    const request_body = {
+        recipient: {
+            id: sender_psid
+        },
+        message
+    }
+
+    request({
+        'uri': `https://graph.facebook.com/v2.6/${sender_psid}`,
+        'qs': { 'access_token': process.env.access_token, fields: 'first_name,last_name' },
+        'method': 'GET',
+        'json': request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log(body);
+            callSendAPIImage(sender_psid, body.first_name);
         }
     });
 }
