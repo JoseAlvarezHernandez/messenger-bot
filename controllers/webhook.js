@@ -8,8 +8,7 @@ const facebook = require('./../api/facebook');
 
 exports.post = (req, res, next) => {
     const body = req.body;
-    console.log(body);
-    if (body.object === 'page') {
+    if (body.entry.messaging) {
         let webhook_event = '';
         body.entry.forEach(entry => {
             webhook_event = entry.messaging[0];
@@ -22,6 +21,11 @@ exports.post = (req, res, next) => {
             }
         });
         res.status(200).send(webhook_event);
+    } else if (body.entry.changes) {
+        body.entry.forEach(entry => {
+            console.log(entry.changes);
+            console.log(entry.id);
+        });
     } else {
         res.sendStatys(404);
     }

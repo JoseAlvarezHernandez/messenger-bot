@@ -83,10 +83,25 @@ function callSendAPI(sender_psid, message) {
     });
 }
 
-function getPersonsProfile(sender_psid) {
-    return request({
+function sendComment(commentId) {
+    request({
+        'uri': `https://graph.facebook.com/v2.6/${commentId}`,
+        'qs': { 'access_token': process.env.access_token },
+        'method': 'POST',
+        'json': request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('comment sent!')
+        } else {
+            console.error(`Unable to send comment: ${err}`);
+        }
+    });
+}
+
+async function getPersonsProfile(sender_psid) {
+    return await request({
         'uri': `https://graph.facebook.com/v2.6/${sender_psid}`,
-        'qs': { 'access_token': process.env.access_token, fields: 'first_name,last_name' },
+        'qs': { 'access_token': process.env.access_token, 'fields': 'first_name,last_name' },
         'method': 'GET'
     });
 };
