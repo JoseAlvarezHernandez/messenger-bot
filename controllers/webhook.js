@@ -13,7 +13,7 @@ exports.post = (req, res, next) => {
         body.entry.forEach(entry => {
             webhook_event = entry.messaging[0];
             const sender_psid = webhook_event.sender.id;
-
+            console.log(sender_psid);
             if (webhook_event.message) {
                 facebook.handleMessage(sender_psid, webhook_event.message);
             } else if (webhook_event.postback) {
@@ -24,8 +24,9 @@ exports.post = (req, res, next) => {
     } else if (body.entry[0].changes) {
         body.entry.forEach(entry => {
             console.log(entry.changes);
-            console.log(entry.id);
+            console.log(entry.post);
         });
+        res.status(200).send({});
     } else {
         console.log('body => ', body);
         res.sendStatus(404);
