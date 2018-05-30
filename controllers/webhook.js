@@ -23,8 +23,9 @@ exports.post = (req, res, next) => {
         res.status(200).send(webhook_event);
     } else if (body.entry[0].changes) {
         body.entry.forEach(entry => {
+            console.log(entry);
             console.log(entry.changes);
-            console.log(entry.post);
+            console.log(entry.changes[0].value.post);
         });
         res.status(200).send({});
     } else {

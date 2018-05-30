@@ -7,7 +7,6 @@
 const request = require('request');
 
 exports.handleMessage = (sender_psid, received_message) => {
-    console.log(received_message);
     // Sends the response message
     //callSendAPI(sender_psid, response);
     callSendAPIImage(sender_psid);
@@ -45,7 +44,6 @@ async function callSendAPIImage(sender_psid) {
         }
     }
     const user = await getPersonsProfile(sender_psid);
-    console.log(user);
 
     request({
         'uri': 'https://graph.facebook.com/v2.6/me/messages',
