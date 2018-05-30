@@ -27,7 +27,8 @@ exports.post = (req, res, next) => {
             console.log(entry.id);
         });
     } else {
-        res.sendStatys(404);
+        console.log('body => ', body);
+        res.sendStatus(404);
     }
 }
 
